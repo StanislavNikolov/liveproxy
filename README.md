@@ -31,4 +31,4 @@ def parse(src_data, port, origin):
 ```
 
 # Performace
-Absolutely terrible! I call reload() on **every single packet**. To improve this maybe you can add checking if something changed or even a manual command in the bottom in proxy.py.
+Absolutely terrible! `reload()` is called on **every single packet**. To improve this you can pass *some* parameters to proxy.py, this will disable live reloading. Then by pressing `r` and enter you can trigger one manually.

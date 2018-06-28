@@ -5,6 +5,9 @@ from threading import Thread
 
 import parser
 
+import sys
+livereload = (len(sys.argv) <= 1)
+
 class Proxy2Server(Thread):
     def __init__(self, host, port):
         super(Proxy2Server, self).__init__()
@@ -23,7 +26,7 @@ class Proxy2Server(Thread):
                 #print(f'p2s[{self.port}] <- {data_preview}')
 
                 try:
-                    importlib.reload(parser)                        
+                    if livereload: importlib.reload(parser)
                     data = parser.parse(data, self.port, 'server')
                 except Exception as e:
                     print(f'p2s[{self.port}] error'.format(), e)
@@ -57,7 +60,7 @@ class Game2Proxy(Thread):
                 #print(f'g2p[{self.port}] -> {data_preview}')
 
                 try:
-                    importlib.reload(parser)        
+                    if livereload: importlib.reload(parser)
                     data = parser.parse(data, self.port, 'client')
                 except Exception as e:
                     print(f'g2p[{self.port}] error', e)
@@ -103,6 +106,8 @@ while True:
         cmd = input('')
         if cmd[:4] == 'quit':
             os._exit(0)
+        if cmd[:1] == 'r':
+            importlib.reload(parser)        
     except Exception as e:
         print('MAIN THREAD', e)
 
